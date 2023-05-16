@@ -29,15 +29,16 @@ echo '
 			<form action="../controllers/RegistrationController.php" method="POST">
 				<label for="chk" aria-hidden="true">Sign up</label>
 				<input type="email" name="email" placeholder="Email" required="">
+				<input type="text" name="username" placeholder="Username" required="">
 				<input type="password" name="password" placeholder="Password" required="">
 				<input type="password" name="confirmPassword" placeholder="Confirm Password" required="">
 				<button>Sign up</button>
 			</form>
 		</div>
 		<div class="login">
-			<form action="../dbconfig.php" method="POST">
+			<form action="../controllers/LoginController.php" method="POST">
 				<label for="chk" aria-hidden="true">Login</label>
-				<input type="text" name="username" placeholder="Username" required="">
+				<input type="email" name="email" placeholder="Email" required="">
 				<input type="password" name="password" placeholder="Password" required="">
 				<button>Login</button>
 			</form>
