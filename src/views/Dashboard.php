@@ -143,8 +143,7 @@
     </div>
   </form>
 </div>
-              </div>
-              <table class="table">
+<table class="table">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -164,6 +163,8 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
+           
             </div>
             <div
               class="tab-pane fade"
@@ -223,8 +224,7 @@
   </div>
 </div>
                 </form>
-              </div>
-              <table class="table">
+                <table class="table">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -246,6 +246,8 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
+             
             </div>
           </div>
         </div>
