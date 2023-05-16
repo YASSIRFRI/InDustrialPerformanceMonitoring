@@ -92,73 +92,57 @@
             >
               <div class="heading">
                 <h4>Current Flows</h4>
-                <button
-                  type="button"
-                  onclick="clearCurrentInventory()"
-                  class="btn btn-danger"
-                >
-                  Clear Inventory
-                </button>
               </div>
               <div class="add-item">
-                <form class="form">
-                  <div class="mb-3">
-                    <label class="form-label">
-                        Entity Name:
-                      <input
-                        id="current_order_product_name"
-                        class="form-control"
-                        type="text"
-                        required
-                      />
-                    </label>
-                    <label class="form-label">
-                        Product Name:
-                      <input
-                        id="current_order_product_brand"
-                        class="form-control"
-                        type="text"
-                        required
-                      />
-                    </label>
-                    <label class="form-label">
-                      Quantity:
-                      <input
-                        id="current_order_product_quantity"
-                        class="form-control"
-                        type="number"
-                        required
-                      />
-                    </label>
-                    <label class="form-label">
-                        Direction :
-                            <label for="current_order_product_direction_in">In
-                            <input
-                              id="current_order_product_price"
-                              class="form-control"
-                              type="radio"
-                              required
-                            />
-                            </label>
-                            <label for="current_order_product_direction_out">Out
-                            <input
-                              id="current_order_product_price"
-                              class="form-control"
-                              type="radio"
-                              required
-                            />
-                            </label>
-                    </label>
-                  </div>
-                  <div class="mb-3">
-                    <button
-                      class="btn btn-success"
-                      onclick="addCurrentInventory()"
-                      type="button">
-                      Add
-                    </button>
-                  </div>
-                </form>
+  <form class="form">
+    <div class="mb-3 d-flex justify-content-around">
+      <label class="form-label">
+        Entity Name:
+        <input id="current_order_product_name" class="form-control" type="text" required />
+      </label>
+      <label class="form-label">
+        Product Name:
+        <input id="current_order_product_brand" class="form-control" type="text" required />
+      </label>
+      <label class="form-label">
+        Quantity:
+        <input id="current_order_product_quantity" class="form-control" type="number" required />
+      </label>
+      <label class="form-label">
+        <div class="w-100">
+            Direction:
+        </div>
+        <div class="form-check d-flex ">
+            <div class="m-1 px-2">
+          <input
+            id="current_order_product_direction_in"
+            class="form-check-input"
+            type="radio"
+            name="direction"
+            value="in"
+            required
+          />
+          <label class="form-check-label" for="current_order_product_direction_in">In</label>
+            </div>
+            <div class="m-1 px-4">
+          <input
+            id="current_order_product_direction_out"
+            class="form-check-input"
+            type="radio"
+            name="direction"
+            value="out"
+            required
+          />
+          <label class="form-check-label" for="current_order_product_direction_out">Out</label>
+        </div>
+        </div>
+      </label>
+    </div>
+    <div class="mb-3">
+      <button class="btn btn-success" onclick="addCurrentInventory()" type="button">Add</button>
+    </div>
+  </form>
+</div>
               </div>
               <table class="table">
                 <thead>
@@ -189,56 +173,55 @@
               tabindex="0"
             >
               <div class="heading">
-                <h4>Outgoing Orders</h4>
-                <button
-                  type="button"
-                  onclick="clearOutgoingOrder()"
-                  class="btn btn-danger"
-                >
-                  Clear Outgoing
-                </button>
+                <h4>Entities Inventory</h4>
               </div>
               <div class="add-item">
-                <form class="form">
-                  <div class="mb-3">
-                    <label class="form-label">
-                      Entity Name:
-                      <input
-                        id="outgoing_order_product_name"
-                        class="form-control"
-                        type="text"
-                        required
-                      />
-                    </label>
-                    <label class="form-label">
-                      Product Name:
-                      <input
-                        id="outgoing_order_product_brand"
-                        class="form-control"
-                        type="text"
-                        required
-                      />
-                    </label>
-                    <label class="form-label">
-                      Quantity:
-                      <input
-                        id="outgoing_order_product_quantity"
-                        class="form-control"
-                        type="number"
-                        required
-                      />
-                    </label>
-                    </div>
-                  <div class="mb-3">
-                    <button
-                      class="btn btn-success"
-                      onclick="addOutgoingOrder()"
-                      type="button"
-                    >
-                      Add
-                    </button>
-                    <button class="btn btn-danger" type="reset">Reset</button>
-                  </div>
+  <form class="form">
+    <div class="mb-3 d-flex justify-content-center">
+      <label class="form-label m-1">
+        Entity Name:
+        <input
+          id="outgoing_order_product_name"
+          class="form-control"
+          type="text"
+          required
+        />
+      </label>
+      <label class="form-label m-1">
+        Product Name:
+        <input
+          id="outgoing_order_product_brand"
+          class="form-control"
+          type="text"
+          required
+        />
+      </label>
+      <label class="form-label m-1 ">
+        Quantity:
+        <input
+          id="outgoing_order_product_quantity"
+          class="form-control"
+          type="number"
+          required
+        />
+      </label>
+    </div>
+    <div class="mb-3 d-flex justify-content-center">
+      <button class="btn btn-success" onclick="addOutgoingOrder()" type="button">Add</button>
+    </div>
+  </form>
+</div>
+                <form>
+
+                    <button class="btn btn-danger" type="button" id="toggleFileInput">Import Data in Excel Format</button>
+                    <div class="input-group m-1 p-2" id="fileInput">
+  <div class="input-group-prepend">
+  </div>
+  <div class="custom-file">
+    <input type="file" class="custom-file-input" id="inputGroupFile01"
+      aria-describedby="inputGroupFileAddon01">
+  </div>
+</div>
                 </form>
               </div>
               <table class="table">
@@ -273,5 +256,12 @@
       integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
       crossorigin="anonymous"
     ></script>
+<script>
+  var toggleButton = document.getElementById("toggleFileInput");
+  var fileInput = document.getElementById("fileInput");
+  toggleButton.addEventListener("click", function() {
+    fileInput.style.display = fileInput.style.display === "none" ? "block" : "none";
+  });
+</script>
   </body>
 </html>

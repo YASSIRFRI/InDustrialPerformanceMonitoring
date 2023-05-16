@@ -59,5 +59,18 @@ class Entity {
             return false;
         }
     }
+
+    public function addProduct($pname, $quantity)
+    {
+        try {
+            $connexion = $GLOBALS['connexion'];
+            $stmt = $connexion->prepare('INSERT INTO entity_product (pname, quantity, ename) VALUES (?, ?, ?)');
+            $stmt->execute([$pname, $quantity, $this->ename]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
 }
 ?>
