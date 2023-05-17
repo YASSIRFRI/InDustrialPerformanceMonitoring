@@ -1,16 +1,17 @@
 <?php
+session_start();
+include "./connexion.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $username = $_POST["username"];
     $password = $_POST["password"];
 
     try {
+
         // Create the SQL statement to create a user
-        $createUserSql = "CREATE USER :username IDENTIFIED BY :password";
+        $createUserSql = "CREATE USER :username@'localhost' IDENTIFIED BY :password";
         $createUserStmt = $connexion->prepare($createUserSql);
-        $createUserStmt->bindParam(':username', $username);
-        $createUserStmt->bindParam(':password', $password);
-        $createUserStmt->execute();
+        $createUserStmt->execute(['username' => $username, 'password' => $password]);
 
         // Loop through each table and grant privileges
         $tables = array("entity", "flow", "product", "entity_product");
@@ -29,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 default:
                     $grantSql = "";
             }
-
             if (!empty($grantSql)) {
                 $grantStmt = $connexion->prepare($grantSql);
                 $grantStmt->bindParam(':username', $username);
@@ -59,14 +59,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="POST" action="addUser.php">
             <div class="form-group">
                 <label for="username">Username:</label>
-                <input type="text" class="form-control" name="username" id="username" required>
+                <input type="text" class="form-control" name="username"
+                <?php 
+                if (isset($_GET["username"]))
+                {
+                    echo "value=".$_GET["username"];
+                }
+                else echo "value=''";
+                ; ?>
+                 id="username" required>
             </div>
-
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" class="form-control" name="password" id="password" required>
             </div>
-
             <table class="table">
                 <thead>
                     <tr>
@@ -121,7 +127,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </tr>
                 </tbody>
             </table>
-
             <button type="submit" class="btn btn-primary">Create User</button>
         </form>
     </div>
