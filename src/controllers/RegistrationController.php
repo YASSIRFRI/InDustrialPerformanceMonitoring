@@ -2,7 +2,6 @@
 <?php
 session_start();
 include '../Models/User.php';
-
 class RegistrationController
 {
     private $userModel;

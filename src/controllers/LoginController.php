@@ -1,7 +1,5 @@
 <?php
-session_start();
 require '../models/User.php';
-require '../dbconfig.php';
 class LoginController
 {
     protected $user;
@@ -21,7 +19,6 @@ class LoginController
         {
             header('Location: ../views/Login.php?error=1');
         }
-
     }
 }
 $user = new User($_POST['email'], $_POST['password']);
