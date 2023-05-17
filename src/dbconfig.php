@@ -11,7 +11,31 @@ $options = [
   ];
 try {
     $connexion = new PDO($dsn, $user, $pass, $options);
-    header("Location: views/AdminDashboard.php");
+
+    if($_SESSION['username'] == 'root'){
+        header("Location: views/AdminDashboard.php");
+    }
+    else{
+        $username = $_SESSION['username']; 
+        $query = "SHOW GRANTS FOR '$username'@'%'";
+        $stmt = $connexion->query($query);
+
+        if ($stmt) {
+            $privileges = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $grants = $row["Grants for $username@%"]; // Adjust the column name based on the actual output
+                $privileges[] = $grants;
+            }
+            
+            // Store the privileges in a session variable
+            $_SESSION["user_privileges"] = $privileges;
+            var_dump($_SESSION["user_privileges"]);
+        } else {
+            // Handle the error condition
+            echo "Error retrieving user privileges: " . $connexion->errorInfo()[2];
+        }
+        //header("Location: views/UserDashboard.php");
+    }
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
