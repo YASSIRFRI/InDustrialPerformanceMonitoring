@@ -7,10 +7,11 @@ $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_EMULATE_PREPARES => false,
   ];
-try {
-    $connexion = new PDO($dsn, $user, $pass, $options);
-    header("Location: views/AdminDashboard.php");
-} catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-}
+  $connexion = new PDO($dsn, $user, $pass, $options);
+// try {
+   
+//     header("Location: dashboard.php");
+// } catch (PDOException $e) {
+//     echo "Connection failed: " . $e->getMessage();
+// }
 ?>
