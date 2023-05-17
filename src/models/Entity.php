@@ -19,7 +19,6 @@ class Entity {
             return false;
         }
     }
-  
     public static function findByName($ename) {
         try {
             $connexion = $GLOBALS['connexion'];
@@ -35,7 +34,6 @@ class Entity {
             return null;
         }
     }
-  
     public function update($ename, $sname) {
         try {
             $connexion = $GLOBALS['connexion'];
@@ -47,7 +45,6 @@ class Entity {
             return false;
         }
     }
-  
     public function delete() {
         try {
             $connexion = $GLOBALS['connexion'];

@@ -14,7 +14,6 @@
     />
     <link rel="stylesheet" href="main.css" />
   </head>
-
   <body>
     <header>
       <nav class="navbar navbar-expand-lg bg-light">
@@ -34,7 +33,7 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                   <li class="nav-item">
-                 <a class="nav-link" href="#">Logout</a>
+                 <a class="nav-link" href="../controllers/LoginController.php?logout=ok">Logout</a>
                   </li>
             </ul>
           </div>
@@ -65,8 +64,6 @@
                Flows
               </button>
             </li>
-          
-            
             <li class="nav-item" role="presentation">
               <button
                 class="nav-link"
@@ -143,8 +140,7 @@
     </div>
   </form>
 </div>
-              </div>
-              <table class="table">
+<table class="table">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -164,6 +160,8 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
+           
             </div>
             <div
               class="tab-pane fade"
@@ -223,8 +221,7 @@
   </div>
 </div>
                 </form>
-              </div>
-              <table class="table">
+                <table class="table">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -246,6 +243,8 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
+             
             </div>
           </div>
         </div>
