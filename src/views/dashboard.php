@@ -64,7 +64,6 @@ include '../dbconfig.php';
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope = "col">#</th>
                                     <th scope="col">Flow Id</th>
                                     <th scope="col">Entity</th>
                                     <th scope="col">Product</th>
@@ -94,7 +93,6 @@ include '../dbconfig.php';
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
                                     <th scope="col">Entity</th>
                                     <th scope="col">Product</th>
                                     <th scope="col">Group Out</th>
