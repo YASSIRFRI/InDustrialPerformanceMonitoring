@@ -1,5 +1,6 @@
 <?php
-include '../dbconfig.php';
+session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +8,6 @@ include '../dbconfig.php';
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="../../assets/js/Dashboard.js"></script>
     <title>Inventory Management</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
@@ -31,7 +31,7 @@ include '../dbconfig.php';
                             <a class="nav-link" href="#">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">View users</a>
+                            <a class="nav-link" href="./Users.php">View users</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Summary</a>
@@ -39,7 +39,6 @@ include '../dbconfig.php';
                         </ul>
                     </div>
                     <button class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-sm">Logout</button>
-
                     <div class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-sm">
                         <div class="modal-content">
@@ -69,10 +68,21 @@ include '../dbconfig.php';
                                     <th scope="col">Product</th>
                                     <th scope="col">Direction</th>
                                     <th scope="col">Quantity</th>
+                                    <th scope="col">Edit</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
+                                try
+                                {
+
+                                $connexion= new PDO('mysql:host=localhost;dbname=industrialPerformance', $_SESSION['username'], $_SESSION['password']);
+                                }
+                                catch (PDOException $e)
+                                {
+                                echo 'Erreur : '.$e->getMessage();
+                                exit();
+                                }
                                 $query = "SELECT * FROM flow LIMIT 10";
                                 $result = $connexion->query($query);
                                 $rows = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -84,6 +94,7 @@ include '../dbconfig.php';
                                     <td><?php echo $row['pname']; ?></td>
                                     <td><?php echo $row['direction']; ?></td>
                                     <td><?php echo $row['quantity']; ?></td>
+                                    <td><a href='$modifyLink' class='btn btn-success btn-sm'><i class='fas fa-edit'></i> Modify</a></td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
@@ -166,7 +177,6 @@ include '../dbconfig.php';
                                     <h6 class="card-subtitle mb-2 text-muted">Entity</h6>
                                     <p class="card-text">To add, you need to provide the entity name, product name, and quantity</p>
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addInfoModal">Add Info</button>
-
                                 </div>
                         </div>
                         <div class="card mb-3" style="width: 18rem;">
@@ -176,7 +186,6 @@ include '../dbconfig.php';
                                     <h6 class="card-subtitle mb-2 text-muted">Flows</h6>
                                     <p class="card-text">To add, you need to provide the entity name, product name, quantity and the direction</p>
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Add Info</button>
-
                                 </div>
                         </div>
                         <div class="modal fade" id="addInfoModal" tabindex="-1"  aria-hidden="true">
@@ -187,26 +196,26 @@ include '../dbconfig.php';
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form class="form">
+                                        <form class="form" method="DataController.php">
                                         <div class="mb-3 d-flex justify-content-center">
                                             <label class="form-label m-1">
                                             Entity Name:
-                                            <input id="outgoing_order_product_name" class="form-control" type="text" required />
+                                            <input id="entity" class="form-control" name="entity" type="text" required />
                                             </label>
                                             <label class="form-label m-1">
                                             Product Name:
-                                            <input id="outgoing_order_product_brand" class="form-control" type="text" required />
+                                            <input id="outgoing_order_product_brand" name="product"class="form-control" type="text" required />
                                             </label>
                                             <label class="form-label m-1">
                                             Quantity:
-                                            <input id="outgoing_order_product_quantity" class="form-control" type="number" required />
+                                            <input id="outgoing_order_product_quantity" name="quantity" class="form-control" type="number" required />
                                             </label>
                                         </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-success"  onclick="addOutgoingOrder()">Add</button>
+                                        <button type="button" class="btn btn-success" >Add</button>
                                     </div>
                                     </div>
                             </div>

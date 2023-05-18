@@ -15,8 +15,8 @@ $options = [
 try {
     $connexion = new PDO($dsn, $user, $pass, $options);
 
-    if($_SESSION['username'] == 'root'){
-        header("Location: views/AdminDashboard.php");
+    if($_SESSION['username'] == 'yassir'){
+        header("Location: views/dashboard.php");
     }
     else{
         $username = $_SESSION['username']; 
@@ -30,14 +30,12 @@ try {
                 $privileges[] = $grants;
             }
             
-            // Store the privileges in a session variable
             $_SESSION["user_privileges"] = $privileges;
             var_dump($_SESSION["user_privileges"]);
         } else {
-            // Handle the error condition
             echo "Error retrieving user privileges: " . $connexion->errorInfo()[2];
         }
-        //header("Location: views/UserDashboard.php");
+        header("Location: views/UserDashboard.php");
     }
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
