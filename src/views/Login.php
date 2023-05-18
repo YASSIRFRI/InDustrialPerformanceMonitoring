@@ -22,17 +22,17 @@
                 </div>
             </div>
             <div class="h4 text-muted text-center pt-2">Enter your login details</div>
-            <form class="pt-3">
+            <form class="pt-3" method="POST" action="../dbconfig.php">
                 <div class="form-group py-2">
                     <div class="input-field">
                         <span class="far fa-user p-2"></span>
-                        <input type="text" placeholder="Username" required class="">
+                        <input type="text" placeholder="Username" name="username" required class="">
                     </div>
                 </div>
                 <div class="form-group py-1 pb-2">
                     <div class="input-field">
                         <span class="fas fa-lock p-2"></span>
-                        <input type="text" placeholder="Enter your Password" required class="">
+                        <input type="password" placeholder="Enter your Password" name="password" required class="">
                     </div>
                 </div>
                 <button class="btn btn-block text-center my-3">Log in</button>
