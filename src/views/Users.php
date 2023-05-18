@@ -10,12 +10,45 @@ include "./connexion.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <title>Document</title>
+    <link rel = "stylesheet" href="../../assets/css/Dashboard.css">
+    <title>Users</title>
 </head>
 <body>
-    
-</body>
-</html>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+                <div class="container">
+                    <a class="navbar-brand" href="#">
+                        <img src="../images/logo.png"width="45" height="50" class="d-inline-block align-top" alt="">
+                    </a>
+                    <a class="navbar-brand text12">Industrial Performance Monitor</a>
+                    <div class="collapse navbar-collapse" id="navbarText">
+                        <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="./dashboard.php">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./Users.php">View users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Summary</a>
+                        </li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-sm">Logout</button>
+                    <div class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header"><h4>Logout <i class="fa fa-lock"></i></h4></div>
+                            <div class="modal-body"><i class="fa fa-question-circle"></i> Are you sure you want to log-off?</div>
+                            <div class="modal-footer"><a href="login.php" class="btn btn-danger btn-block">Logout</a></div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+
 <?php
 try {
     // Retrieve all users
@@ -27,13 +60,13 @@ try {
 
     // Display the users and their privileges
     echo "<div class='container'>";
-    echo "<h2 class='mb-4'>Users and Privileges</h2>";
-    echo "<table class='table table-bordered'>";
-    echo "<thead class='thead-light'><tr><th>Username</th>";
+    echo "<h2 class='mb-4 p-3 text-success'>Users and Privileges</h2>";
+    echo "<table class='table table-striped border border-2'>";
+    echo "<thead class='thead-light'><tr><th scope = 'col'>Username</th>";
     foreach ($tables as $table) {
-        echo "<th>$table</th>";
+        echo "<th scope = 'col'>$table</th>";
     }
-    echo "<th>Action</th></tr></thead><tbody>";
+    echo "<th scope = 'col'>Action</th></tr></thead><tbody>";
 
     foreach ($users as $user) {
         $username = $user['user'];
@@ -65,7 +98,7 @@ try {
             echo "<td>$privilege</td>";
         }
         $modifyLink = "AddUser.php?username={$user['user']}";
-        echo "<td><a href='$modifyLink' class='btn btn-primary btn-sm'><i class='fas fa-edit'></i> Modify</a></td>";
+        echo "<td><a href='$modifyLink' class='btn btn-success btn-sm'><i class='fas fa-edit'></i> Modify</a></td>";
         echo "</tr>";
     }
     echo "</tbody></table>";
@@ -74,4 +107,5 @@ try {
     echo "Error retrieving users and privileges: " . $e->getMessage();
 }
 ?>
-?>
+</body>
+</html>
