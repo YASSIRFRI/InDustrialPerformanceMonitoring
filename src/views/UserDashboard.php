@@ -60,6 +60,7 @@ session_start();
                     </div>';
                     ?>
                     <div id="flowTableContainer" class="table-container">
+                    <h3 class="p-3 mt-4">Latest Flows</h3>
                         <table class="table table-striped">
                             <thead>
                                 <tr>

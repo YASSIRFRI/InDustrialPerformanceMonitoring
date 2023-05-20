@@ -6,43 +6,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
+    // Check if the user already exists
+    $userExistsSql = "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE User = ?) AS user_exists";
+    $userExistsStmt = $connexion->prepare($userExistsSql);
+    $userExistsStmt->execute([$username]);
+    $userExists = $userExistsStmt->fetchColumn();
+
     try {
-
-        // Create the SQL statement to create a user
-        $createUserSql = "CREATE USER :username@'localhost' IDENTIFIED BY :password";
-        $createUserStmt = $connexion->prepare($createUserSql);
-        $createUserStmt->execute(['username' => $username, 'password' => $password]);
-
-        // Loop through each table and grant privileges
-        $tables = array("entity", "flow", "product", "entity_product");
-        foreach ($tables as $table) {
-            $privilege = $_POST["privilege_" . $table];
-            switch ($privilege) {
-                case "insert":
-                    $grantSql = "GRANT INSERT ON industrialPerformance." . $table . " TO :username";
-                    break;
-                case "select":
-                    $grantSql = "GRANT SELECT ON industrialPerformance." . $table . " TO :username";
-                    break;
-                case "delete":
-                    $grantSql = "GRANT DELETE ON industrialPerformance." . $table . " TO :username";
-                    break;
-                default:
-                    $grantSql = "";
+        if ($userExists) {
+            // User already exists, update privileges or change password
+            // Update privileges
+            $tables = array("entity", "flow", "product", "entity_product");
+            foreach ($tables as $table) {
+                $privilege = $_POST["privilege_" . $table];
+                switch ($privilege) {
+                    case "insert":
+                        $grantSql = "GRANT INSERT ON industrialPerformance." . $table . " TO '" . $username . "'@'localhost'";
+                        break;
+                    case "select":
+                        $grantSql = "GRANT SELECT ON industrialPerformance." . $table . " TO '" . $username . "'@'localhost'";
+                        break;
+                    case "delete":
+                        $grantSql = "GRANT DELETE ON industrialPerformance." . $table . " TO '" . $username . "'@'localhost'";
+                        break;
+                    default:
+                        $grantSql = "";
+                }
+                if (!empty($grantSql)) {
+                    $connexion->exec($grantSql);
+                }
             }
-            if (!empty($grantSql)) {
-                $grantStmt = $connexion->prepare($grantSql);
-                $grantStmt->bindParam(':username', $username);
-                $grantStmt->execute();
-            }
+        } else {
+            $createUserSql = "CREATE USER '" . $username . "'@'localhost' IDENTIFIED BY '" . $password . "'";
+            $connexion->exec($createUserSql);
         }
 
         // Display success message
-        echo "User created successfully!";
+        echo "User updated successfully!";
     } catch (PDOException $e) {
-        echo "Error creating user: " . $e->getMessage();
+        var_dump($_POST["username"]);
+        var_dump($_POST["password"]);
+        echo "Error updating user: " . $e->getMessage();
     }
 }
+
 ?>
 <!-- HTML form -->
 <!DOCTYPE html>
@@ -73,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="collapse navbar-collapse" id="navbarText">
                         <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="./dashboard.php">Home</a>
+                            <a class="nav-link" href="./AdminDashboard.php">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./Users.php">View users</a>
@@ -172,6 +179,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </table>
                     <button type="submit" class="btn btn-success">Create User</button>
                 </form>
+                    <button  class="btn  btn-success" ><a href="./deleteUser.php?username=<?php
+                    if (isset($_GET["username"]))
+                    {
+                        echo $_GET["username"];
+                    }
+                    else echo "";
+                    ; ?>
+                    ">Delete This User</a> </button>
             </div>
             </main>
     <!-- Bootstrap JS -->

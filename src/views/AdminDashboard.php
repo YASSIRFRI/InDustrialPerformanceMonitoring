@@ -1,5 +1,10 @@
 <?php
 session_start();
+if(!($_SESSION['admin']))
+{
+    header('Location:./UserDashboard.php');
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

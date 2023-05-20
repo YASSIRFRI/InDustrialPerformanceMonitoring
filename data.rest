@@ -1,0 +1,1 @@
+GET http://localhost/industrialPerformanceMonitoring/src/controllers/DataController.php?inventory=1&year=2021&month=6

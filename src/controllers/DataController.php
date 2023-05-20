@@ -1,9 +1,9 @@
 <?php
-session_start();
-if(!($_SESSION['insert']))
-{
-    header("Location: ./Login.php");
-}
+//session_start();
+//if(!($_SESSION['insert']))
+//{
+    //header("Location: ./Login.php");
+//}
 include "../views/connexion.php";
 class DataController 
 {
@@ -24,7 +24,24 @@ class DataController
             $stmt->execute();
         }
     }
+    public function getInventoryByDate($month, $year)
+    {
+        global $connexion;
+        $sql='SELECT * FROM Flow
+        WHERE MONTH(fdate) = :month AND YEAR(fdate) = :year;';
+        $stmt = $connexion->prepare($sql);
+        $stmt->execute(['month' => $month, 'year' => $year]);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $jsonResult = json_encode($result);
+        return $jsonResult;
+    }
 
+}
+
+$dataController = new DataController();
+if(isset($_GET["inventory"]) && isset($_GET["month"]) && isset($_GET["year"]))
+{
+    $dataController->getInventoryByDate($_GET["month"], $_GET["year"]);
 }
 
 
