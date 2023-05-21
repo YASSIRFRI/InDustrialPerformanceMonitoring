@@ -4,7 +4,6 @@
   color: #198754;
 }
 .sidebar {
-  /* position: fixed; */
   top: 75px;
   right: 0;
   bottom: 0;
@@ -13,9 +12,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
 
 }
 
