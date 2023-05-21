@@ -218,7 +218,9 @@ if(!($_SESSION['admin']))
                             </div>
                             
                             <div id="content2" class="card-body hide" style="display: none;">
-                                <p class="card-text">Export Data</p>
+                                <a href="excel_export_inventory.php">Export Inventory to Excel</a>
+                                <br>
+                                <a href="excel_export_flow.php">Export Flow to Excel</a>
                             </div>
                         </div>
                         <div class="card mb-3" style="width: 18rem;">
