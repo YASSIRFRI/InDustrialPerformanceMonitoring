@@ -1,8 +1,8 @@
 <?php
-require("../dbconfig.php");
+session_start();
 require("connexion.php");
 
-$sql_query = "SELECT * FROM flow";
+$sql_query = "SELECT * FROM flow LIMIT 500";
 $records = array();
 
 $connexion->beginTransaction();

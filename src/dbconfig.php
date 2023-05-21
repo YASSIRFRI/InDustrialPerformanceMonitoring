@@ -22,7 +22,7 @@ foreach ($lines as $line) {
         break;
     }
 }
-try {
+//try {
     $connexion = new PDO($dsn, $user, $pass, $options);
     if ($_SESSION['username'] == $adminUsername) {
         $_SESSION['admin'] = true;
@@ -52,10 +52,10 @@ try {
         }
         header("Location: views/UserDashboard.php");
     }
-} catch (PDOException $e) {
-    session_destroy();
-    echo "Connection failed: " . $e->getMessage();
-    header("Location: ./views/Login.php");
-}
+//} catch (PDOException $e) {
+    //session_destroy();
+    //echo "Connection failed: " . $e->getMessage();
+    //header("Location: ./views/Login.php");
+//}
 
 ?>
