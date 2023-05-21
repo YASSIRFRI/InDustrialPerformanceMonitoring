@@ -39,7 +39,7 @@ if(!($_SESSION['admin']))
                             <a class="nav-link" href="./Users.php">View users</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Summary</a>
+                            <a class="nav-link" href="./summary.php">Summary</a>
                         </li>
                         </ul>
                     </div>
