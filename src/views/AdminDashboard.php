@@ -20,6 +20,7 @@ if(!($_SESSION['admin']))
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../../assets/css/Dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
         <header>
@@ -121,13 +122,13 @@ if(!($_SESSION['admin']))
                                 <?php } ?>
                             </tbody>
                         </table>
+                        <canvas id="FlowChart"></canvas>
                     </div>
                     <div  id="entityTableContainer" class="table-container" style="display: none;">
                     <div class="row">
                 <div class="col-md-6">
-                <label for="sort-column">Sort by Column:</label>
+                 <label for="sort-column">Sort by Column:</label>
                 <select  class="form-control" id="sort-select-entity">
-                    <option value="fid">Flow ID</option>
                     <option value="quantity">Quantity</option>
                     <option value="ename">Entity Name</option>
                     <option value="pname">Product Name</option>
@@ -137,7 +138,6 @@ if(!($_SESSION['admin']))
                 <div class="col-md-6">
                 <label for="filter-month-year">View Flows for:</label>
                 <input type="month" class="form-control" id="month-select-entity">
-
                 </div>
             </div>
                         <table class="table table-striped" id="Entity-table">
@@ -177,6 +177,7 @@ if(!($_SESSION['admin']))
                                 <?php } ?>
                             </tbody>
                         </table>
+                        <canvas id="productChart"></canvas>
                     </div>
                 </div>
                 <div class = "col-3">
@@ -362,40 +363,75 @@ if(!($_SESSION['admin']))
     </script>
        <script>
         console.log("Dashboard.js loaded");
-function updateTable() {
+        function updateTable() {
+  var selectedMonth = document.getElementById('month-select').value.split('-')[1];
+  var selectedYear = document.getElementById('month-select').value.split('-')[0];
+  var selectedSortColumn = document.getElementById('sort-select').value;
 
-    var selectedMonth = document.getElementById('month-select').value.split('-')[1];
-    var selectedYear = document.getElementById('month-select').value.split('-')[0];
-    var selectedSortColumn = document.getElementById('sort-select').value;
+  // Make a request to the server with the selected month and sort column
+  var requestUrl = '../controllers/DataController.php?item=1&year=' + selectedYear + '&sort=' + selectedSortColumn + '&month=' + selectedMonth;
+  fetch(requestUrl)
+    .then(function(response) {
+      // Check if the response is successful
+      if (response.ok) {
+        return response.text(); // Convert the response to HTML
+      } else {
+        throw new Error('Error: ' + response.status); // Handle the error if the response is not successful
+      }
+    })
+    .then(function(htmlResponse) {
+      // Handle the HTML response
+      // Update the table with the HTML response
+      document.getElementById('flows-table').innerHTML = htmlResponse;
 
-    
-    // Make a request to the server with the selected month and sort column
-    var requestUrl = '../controllers/DataController.php?item=1&year=' + selectedYear + '&sort=' + selectedSortColumn + '&month=' + selectedMonth;
-    fetch(requestUrl)
-      .then(function(response) {
-        // Check if the response is successful
-        if (response.ok) {
-            console.log(response);
-          return response.text(); // Convert the response to HTML
-        } else {
-          throw new Error('Error: ' + response.status); // Handle the error if the response is not successful
-        }
-      })
-      .then(function(htmlResponse) {
-        // Handle the HTML response
-        // Inject the HTML into the desired element on the page
-        document.getElementById('flows-table').innerHTML = htmlResponse;
-      })
-      .catch(function(error) {
-        // Handle any errors that occurred during the request
-        console.error('Error:', error);
+      // Process the data for the chart
+      var entities = [];
+      var quantities = [];
+
+      // Extract the data from the table rows
+      var tableRows = document.querySelectorAll('#flows-table tbody tr');
+      tableRows.forEach(function(row) {
+        var entity = row.cells[1].innerText;
+        var quantity = parseFloat(row.cells[4].innerText);
+        entities.push(entity);
+        quantities.push(quantity);
       });
-  }
-monthInput=document.getElementById('month-select');
-sortInput=document.getElementById('sort-select');
+
+      // Create the chart using Chart.js
+      var ctx = document.getElementById('FlowChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: entities,
+          datasets: [{
+            label: 'Quantity',
+            data: quantities,
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    })
+    .catch(function(error) {
+      // Handle any errors that occurred during the request
+      console.error('Error:', error);
+    });
+}
+
+// Attach event listeners to the input elements
+var monthInput = document.getElementById('month-select');
+var sortInput = document.getElementById('sort-select');
 monthInput.addEventListener('change', updateTable);
 sortInput.addEventListener('change', updateTable);
-
 function updateInventory()
 {
     var selectedMonth = document.getElementById('month-select-entity').value.split('-')[1];
@@ -417,13 +453,48 @@ function updateInventory()
         // Handle the HTML response
         // Inject the HTML into the desired element on the page
         document.getElementById('Entity-table').innerHTML = htmlResponse;
-      })
-      .catch(function(error) {
-        // Handle any errors that occurred during the request
-        console.error('Error:', error);
+      // Get the data from the table
+      var table = document.getElementById('Entity-table');
+      var entities = [];
+      var quantities = [];
+
+      // Iterate over the table rows to extract the data
+      for (var i = 1; i < table.rows.length; i++) {
+        var row = table.rows[i];
+        var entity = row.cells[1].innerText;
+        var quantity = parseFloat(row.cells[4].innerText);
+        entities.push(entity);
+        quantities.push(quantity);
+      }
+
+      // Render the chart
+      var ctx = document.getElementById('productChart').getContext('2d');
+      var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: entities,
+          datasets: [{
+            label: 'Product Quantity',
+            data: quantities,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
       });
-
-
+    })
+    .catch(function(error) {
+      // Handle any errors that occurred during the request
+      console.error('Error:', error);
+    });
 }
 monthInputEntity=document.getElementById('month-select-entity');
 sortInputEntity=document.getElementById('sort-select-entity');
