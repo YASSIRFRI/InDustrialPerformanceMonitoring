@@ -64,7 +64,25 @@ if(!($_SESSION['admin']))
                         <button id="showEntityTableBtn" type="button" class="btn btn-success mx-4 ">Show Entity Table</button>
                     </div>
                     <div id="flowTableContainer" class="table-container">
-                        <table class="table table-striped">
+                    <h3 class="p-3 mt-4">Latest Flows</h3>
+                    <div class="row">
+                <div class="col-md-6">
+                <label for="sort-column">Sort by Column:</label>
+                <select  class="form-control" id="sort-select">
+                    <option value="fid">Flow ID</option>
+                    <option value="quantity">Quantity</option>
+                    <option value="ename">Entity Name</option>
+                    <option value="pname">Product Name</option>
+                    <option value="idate">Date</option>
+                </select>
+                </div>
+                <div class="col-md-6">
+                <label for="filter-month-year">View Flows for:</label>
+                <input type="month" class="form-control" id="month-select">
+
+                </div>
+            </div>
+                        <table class="table table-striped" id="flows-table">
                             <thead>
                                 <tr>
                                     <th scope="col">Flow Id</th>
@@ -105,7 +123,24 @@ if(!($_SESSION['admin']))
                         </table>
                     </div>
                     <div  id="entityTableContainer" class="table-container" style="display: none;">
-                        <table class="table table-striped">
+                    <div class="row">
+                <div class="col-md-6">
+                <label for="sort-column">Sort by Column:</label>
+                <select  class="form-control" id="sort-select-entity">
+                    <option value="fid">Flow ID</option>
+                    <option value="quantity">Quantity</option>
+                    <option value="ename">Entity Name</option>
+                    <option value="pname">Product Name</option>
+                    <option value="idate">Date</option>
+                </select>
+                </div>
+                <div class="col-md-6">
+                <label for="filter-month-year">View Flows for:</label>
+                <input type="month" class="form-control" id="month-select-entity">
+
+                </div>
+            </div>
+                        <table class="table table-striped" id="Entity-table">
                             <thead>
                                 <tr>
                                     <th scope="col">Entity</th>
@@ -158,13 +193,25 @@ if(!($_SESSION['admin']))
                                 </ul>
                             </div>
                             <div id="content1" class="card-body hide" >
-                                <p class="card-text">Import Data in Excel Format</p>
-                                <form>
+                            <p class="card-text">Import Inventory:</p>
+                                <form action="inventory_upload.php" method="post" enctype="multipart/form-data">
                                     <div class="input-group m-1 p-2" id="fileInput">
                                         <div class="input-group-prepend">
                                         </div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="inputGroupFile01"aria-describedby="inputGroupFileAddon01">
+                                            <input type="file" id="file_inventory" name="file_inventory" accept=".csv">
+                                            <input type="submit" name="submit" value="Upload">
+                                        </div>
+                                    </div>
+                                </form>
+                                <p class="card-text">Import Flow:</p>
+                                <form action="flow_upload.php" method="post" enctype="multipart/form-data">
+                                    <div class="input-group m-1 p-2" id="fileInput">
+                                        <div class="input-group-prepend">
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="file" id="file_flow" name="file_flow" accept=".csv">
+                                            <input type="submit" name="submit_flow" value="Upload">
                                         </div>
                                     </div>
                                 </form>
@@ -309,6 +356,78 @@ if(!($_SESSION['admin']))
             $('#entityTableContainer').show();
         });
         });
+
+    </script>
+       <script>
+        console.log("Dashboard.js loaded");
+function updateTable() {
+
+    var selectedMonth = document.getElementById('month-select').value.split('-')[1];
+    var selectedYear = document.getElementById('month-select').value.split('-')[0];
+    var selectedSortColumn = document.getElementById('sort-select').value;
+
+    
+    // Make a request to the server with the selected month and sort column
+    var requestUrl = '../controllers/DataController.php?item=1&year=' + selectedYear + '&sort=' + selectedSortColumn + '&month=' + selectedMonth;
+    fetch(requestUrl)
+      .then(function(response) {
+        // Check if the response is successful
+        if (response.ok) {
+            console.log(response);
+          return response.text(); // Convert the response to HTML
+        } else {
+          throw new Error('Error: ' + response.status); // Handle the error if the response is not successful
+        }
+      })
+      .then(function(htmlResponse) {
+        // Handle the HTML response
+        // Inject the HTML into the desired element on the page
+        document.getElementById('flows-table').innerHTML = htmlResponse;
+      })
+      .catch(function(error) {
+        // Handle any errors that occurred during the request
+        console.error('Error:', error);
+      });
+  }
+monthInput=document.getElementById('month-select');
+sortInput=document.getElementById('sort-select');
+monthInput.addEventListener('change', updateTable);
+sortInput.addEventListener('change', updateTable);
+
+function updateInventory()
+{
+    var selectedMonth = document.getElementById('month-select-entity').value.split('-')[1];
+    var selectedYear = document.getElementById('month-select-entity').value.split('-')[0];
+    var selectedSortColumn = document.getElementById('sort-select-entity').value;
+
+    var requestUrl = '../controllers/DataController.php?item=2&year=' + selectedYear + '&sort=' + selectedSortColumn + '&month=' + selectedMonth;
+    fetch(requestUrl)
+      .then(function(response) {
+        // Check if the response is successful
+        if (response.ok) {
+            console.log(response);
+          return response.text(); // Convert the response to HTML
+        } else {
+          throw new Error('Error: ' + response.status); // Handle the error if the response is not successful
+        }
+      })
+      .then(function(htmlResponse) {
+        // Handle the HTML response
+        // Inject the HTML into the desired element on the page
+        document.getElementById('Entity-table').innerHTML = htmlResponse;
+      })
+      .catch(function(error) {
+        // Handle any errors that occurred during the request
+        console.error('Error:', error);
+      });
+
+
+}
+monthInputEntity=document.getElementById('month-select-entity');
+sortInputEntity=document.getElementById('sort-select-entity');
+monthInputEntity.addEventListener('change', updateInventory);
+sortInputEntity.addEventListener('change', updateInventory);
+
 
     </script>
     </body>

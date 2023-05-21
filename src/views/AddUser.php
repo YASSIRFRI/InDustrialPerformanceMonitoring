@@ -179,14 +179,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </table>
                     <button type="submit" class="btn btn-success">Create User</button>
                 </form>
-                    <button  class="btn  btn-success" ><a href="./deleteUser.php?username=<?php
+                   <a class="btn btn-danger mt-3" href="./deleteUser.php?username=<?php
                     if (isset($_GET["username"]))
                     {
                         echo $_GET["username"];
                     }
                     else echo "";
                     ; ?>
-                    ">Delete This User</a> </button>
+                    ">Delete This User</a> 
             </div>
             </main>
     <!-- Bootstrap JS -->
