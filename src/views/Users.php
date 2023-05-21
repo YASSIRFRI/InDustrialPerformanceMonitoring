@@ -1,5 +1,9 @@
 <?php
 session_start();
+if(!($_SESSION['admin']))
+{
+    header("Location: ./Login.php");
+}
 include "./connexion.php";
 ?>
 <!DOCTYPE html>
@@ -24,10 +28,7 @@ include "./connexion.php";
                     <div class="collapse navbar-collapse" id="navbarText">
                         <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="./dashboard.php">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./Users.php">View users</a>
+                            <a class="nav-link" href="./AdminDashboard.php">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Summary</a>
