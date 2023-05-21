@@ -18,7 +18,7 @@ session_start();
   </head>
   <body>
         <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
                 <div class="container">
                     <a class="navbar-brand" href="#">
                         <img src="../images/logo.png"width="45" height="50" class="d-inline-block align-top" alt="">
@@ -34,7 +34,7 @@ session_start();
                         </li>
                         </ul>
                     </div>
-                    <button class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-sm">Logout</button>
+                    <button class="btn btn-success " data-toggle="modal" data-target=".bs-example-modal-sm">Logout</button>
                     <div class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-sm">
                         <div class="modal-content">
@@ -69,7 +69,7 @@ session_start();
                     <option value="quantity">Quantity</option>
                     <option value="ename">Entity Name</option>
                     <option value="pname">Product Name</option>
-                    <option value="idate">Date</option>
+                    <option value="fdate">Date</option>
                 </select>
                 </div>
                 <div class="col-md-6">
@@ -123,7 +123,6 @@ session_start();
                 <div class="col-md-6">
                 <label for="sort-column">Sort by Column:</label>
                 <select  class="form-control" id="sort-select-entity">
-                    <option value="fid">Flow ID</option>
                     <option value="quantity">Quantity</option>
                     <option value="ename">Entity Name</option>
                     <option value="pname">Product Name</option>

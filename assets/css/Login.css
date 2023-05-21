@@ -7,7 +7,8 @@
 body{
     background-color: #eee;
     font-family: 'Poppins', sans-serif; 
-    background: linear-gradient(to top, #fff 10%, rgb(133, 232, 133) 90%) no-repeat;
+    background-image: url(../images/photo-1495107334309-fcf20504a5ab.jpg);
+    background-size: cover;
 }
 .wrapper{
     max-width: 500px;
