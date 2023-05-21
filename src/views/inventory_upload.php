@@ -45,6 +45,8 @@ if (isset($_POST["submit"])) {
             $sql_entity_product = "INSERT INTO entity_product (ename, pname, quantity)
                                    VALUES ('$entity' , '$product', '$quantity')";
 
+            $connexion->beginTransaction();
+
             if ($connexion->query($sql_group) === TRUE) {
                 echo "Record inserted successfully";
             }
@@ -64,6 +66,8 @@ if (isset($_POST["submit"])) {
             if ($connexion->query($sql_entity_product) === TRUE) {
                 echo "Record inserted successfully";
             }
+
+            $connexion->commit();
         }
 
         fclose($file);

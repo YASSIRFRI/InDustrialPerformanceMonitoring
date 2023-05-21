@@ -10,11 +10,14 @@ $sql_query="SELECT e.ename, p.pname, g.gname, f.quantity, s.sname, p.phase, p.na
             INNER JOIN `Group` g ON p.gname = g.gname
             WHERE MONTH(f.idate) = :month AND YEAR(f.idate) = :year";
 
+$connexion->beginTransaction();
+
 $resultset = $connexion->query($sql_query);
 while( $rows = $resultset->fetchAll(PDO::FETCH_ASSOC) ) {
   $records[] = $rows;
 }
 
+$connexion->commit();
 
 $filename = "flow_data".date('Ymd') . ".xls";     
 header("Content-Type: application/vnd.ms-excel");

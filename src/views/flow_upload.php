@@ -36,10 +36,11 @@ if (isset($_POST["submit_flow"])) {
 
             $sql = "INSERT INTO flow (quantity, direction, `Indicator`, ename, pname) 
                     VALUES ('$quantity', '$direction', '$indicator', '$entity', '$product')";
-
+            $connexion->beginTransaction();
             if ($connexion->query($sql) === TRUE) {
                 echo "Record inserted successfully";
             }
+            $connexion->commit();
         }
 
         fclose($file);
