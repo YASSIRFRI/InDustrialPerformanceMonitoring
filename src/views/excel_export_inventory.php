@@ -1,5 +1,6 @@
 <?php
-include_once("./connexion.php");
+require("../dbconfig.php");
+require("connexion.php");
 
 $sql_query="SELECT e.ename, p.pname, g.gname, f.quantity, s.sname, p.phase, p.nature
             FROM entity_product f 

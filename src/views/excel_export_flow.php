@@ -1,5 +1,6 @@
 <?php
-include_once("connexion.php");
+require("../dbconfig.php");
+require("connexion.php");
 
 $sql_query = "SELECT * FROM flow";
 $records = array();
