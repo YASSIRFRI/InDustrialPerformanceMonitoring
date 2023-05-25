@@ -103,6 +103,7 @@ try {
         echo "</tr>";
     }
     echo "</tbody></table>";
+    echo "<a href='AddUser.php' class='btn btn-danger btn-sm'><i class='fas fa-plus'></i> Add a New User</a>";
     echo "</div>";
 } catch (PDOException $e) {
     echo "Error retrieving users and privileges: " . $e->getMessage();

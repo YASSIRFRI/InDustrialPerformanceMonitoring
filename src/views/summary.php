@@ -97,14 +97,10 @@
               <div style="width:400px;margin-right: 10px;"   id="consumedProduct"></div>
               <div  style="width:400px;" id="consumedProductComp"></div>
           </div>
-
-
-          
                 <div class="d-flex">
                       <div style="width:400px;margin-right: 10px;" id="producedProduct"></div>
                       <div style="width:400px;"  id="producedProductComp"></div>
               </div>
-                     
                 <div class="d-flex">
                       <div style="width:400px; margin-right: 10px;"   id="tableContainer"></div>
                       <div style="width:400px;" id="tableContainerComp"></div>
@@ -119,9 +115,8 @@
               $(document).ready(function() {
                   $('#bilan').submit(function(event) {
                       event.preventDefault(); 
-                      
+                      console.log('form is submitted');
                       var formData = $(this).serialize();
-
                       $.ajax({
                       url: 'bilan.php',
                       type: 'POST',
@@ -135,7 +130,10 @@
                           $('#tableContainerComp').html(response.tableDataComp);
                           $('#consumedProductComp').html(response.consComp);
                           $('#producedProductComp').html(response.prodComp);
-                      }
+                      }, 
+                        error: function(error) {
+                            console.log(error);
+                        } 
                       });
                   });
                   });

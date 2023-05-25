@@ -1,6 +1,7 @@
 
     <?php
     session_start();
+    include './connexion.php';
     $submittedEntity = $_POST['entity'];
     $submittedMonth = $_POST['selectedMonth'];
 
@@ -19,8 +20,8 @@
     
 
     function treatment($submittedMonth, $cons, $prod, $tableData){
-        global $pdo, $responseData, $submittedEntity, $orderby;
-        $monthStmt = $pdo->prepare("SELECT * FROM Operation WHERE DATE_FORMAT(Operation.opdate, '%Y-%m') = :submittedMonth");
+        global $connexion, $responseData, $submittedEntity, $orderby;
+        $monthStmt = $connexion->prepare("SELECT * FROM Operation WHERE DATE_FORMAT(Operation.opdate, '%Y-%m') = :submittedMonth");
         $monthStmt->bindParam(':submittedMonth', $submittedMonth);
         $monthStmt->execute();
     
@@ -92,15 +93,15 @@
             $query .= "ORDER BY
                 " . $orderby . ";";
 
-            $statement = $pdo->prepare($query);
+            $statement = $connexion->prepare($query);
             $statement->execute();
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-            $prodStmt = $pdo->prepare($prodQuery);
+            $prodStmt = $connexion->prepare($prodQuery);
             $prodStmt->execute();
             $prodResult = $prodStmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $consStmt = $pdo->prepare($consQuery);
+            $consStmt = $connexion->prepare($consQuery);
             $consStmt->execute();
             $consResult = $consStmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -198,7 +199,7 @@
         }
     }
     
-    $entityStmt = $pdo->prepare("SELECT * FROM Entity WHERE Entity.ename = :submittedEntity");
+    $entityStmt = $connexion->prepare("SELECT * FROM Entity WHERE Entity.ename = :submittedEntity");
     $entityStmt->bindParam(':submittedEntity', $submittedEntity);
     $entityStmt->execute();
 

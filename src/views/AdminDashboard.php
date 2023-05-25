@@ -33,7 +33,7 @@ if(!($_SESSION['admin']))
                     <div class="collapse navbar-collapse" id="navbarText">
                         <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Home</a>
+                            <a class="nav-link" href="./AdminDashboard.php">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./Users.php">View users</a>
@@ -117,11 +117,55 @@ if(!($_SESSION['admin']))
                                     <td><?php echo $row['pname']; ?></td>
                                     <td><?php echo $row['direction']; ?></td>
                                     <td><?php echo $row['quantity']; ?></td>
-                                    <td><a href='$modifyLink' class='btn btn-success btn-sm'><i class='fas fa-edit'></i> Modify</a></td>
+                                    <td>
+  <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modifyFlowModal">
+    <i class="fas fa-edit"></i> Modify
+  </button>
+</td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
                         </table>
+                        <div class="modal fade" id="modifyFlowModal" tabindex="-1" role="dialog" aria-labelledby="modifyFlowModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modifyFlowModalLabel">Modify Flow</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="modifyFlow.php">
+          <div class="form-group">
+            <label for="flowId">Flow ID:</label>
+            <input type="text" class="form-control" id="flowId">
+          </div>
+          <div class="form-group">
+            <label for="ename">Ename:</label>
+            <input type="text" class="form-control" id="ename">
+          </div>
+          <div class="form-group">
+            <label for="pname">Pname:</label>
+            <input type="text" class="form-control" id="pname">
+          </div>
+          <div class="form-group">
+            <label for="direction">Direction:</label>
+            <input type="text" class="form-control" id="direction">
+          </div>
+          <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="text" class="form-control" id="quantity">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
                         <canvas id="FlowChart"></canvas>
                     </div>
                     <div  id="entityTableContainer" class="table-container" style="display: none;">
@@ -150,6 +194,7 @@ if(!($_SESSION['admin']))
                                     <th scope="col">Site</th>
                                     <th scope="col">Phase</th>
                                     <th scope="col">Nature</th>
+                                    <th scope="col">Edit</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -173,12 +218,53 @@ if(!($_SESSION['admin']))
                                     <td><?php echo $row['sname']; ?></td>
                                     <td><?php echo $row['phase']; ?></td>
                                     <td><?php echo $row['nature']; ?></td>
+                                    <td>
+  <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modifyEntityModal">
+    <i class="fas fa-edit"></i> Modify
+  </button>
+</td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
                         </table>
-                        <canvas id="productChart"></canvas>
+                        <div class="modal fade" id="modifyEntityModal" tabindex="-1" role="dialog" aria-labelledby="modifyEntityModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modifyFlowModalLabel">Modify Inventory Entry</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="ename">Ename:</label>
+            <input type="text" class="form-control" id="ename">
+          </div>
+          <div class="form-group">
+            <label for="pname">Pname:</label>
+            <input type="text" class="form-control" id="pname">
+          </div>
+          <div class="form-group">
+            <label for="pname">Group OUT:</label>
+            <input type="text" class="form-control" id="pname">
+          </div>
+          <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="text" class="form-control" id="quantity">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
                     </div>
+                    <canvas id="productChart"></canvas>
                 </div>
                 <div class = "col-3">
                     <div class="col-lg-3 sidebar align-items-center">

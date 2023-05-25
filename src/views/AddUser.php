@@ -39,10 +39,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $createUserSql = "CREATE USER '" . $username . "'@'localhost' IDENTIFIED BY '" . $password . "'";
             $connexion->exec($createUserSql);
+            // Grant privileges
+            $tables = array("entity", "flow", "product", "entity_product");
+            foreach ($tables as $table) {
+                $privilege = $_POST["privilege_" . $table];
+                switch ($privilege) {
+                    case "insert":
+                        $grantSql = "GRANT INSERT ON industrialPerformance." . $table . " TO '" . $username . "'@'localhost'";
+                        break;
+                    case "select":
+                        $grantSql = "GRANT SELECT ON industrialPerformance." . $table . " TO '" . $username . "'@'localhost'";
+                        break;
+                    case "delete":
+                        $grantSql = "GRANT DELETE ON industrialPerformance." . $table . " TO '" . $username . "'@'localhost'";
+                        break;
+                    default:
+                        $grantSql = "";
+                }
+                if (!empty($grantSql)) {
+                    $connexion->exec($grantSql);
+                }
+            }
         }
 
         // Display success message
         echo "User updated successfully!";
+        header("Location: ./Users.php");
     } catch (PDOException $e) {
         var_dump($_POST["username"]);
         var_dump($_POST["password"]);

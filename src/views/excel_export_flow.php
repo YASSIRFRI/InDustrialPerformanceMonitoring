@@ -1,19 +1,15 @@
 <?php
-require("../dbconfig.php");
+session_start();
 require("connexion.php");
 
-$sql_query = "SELECT * FROM flow";
+$sql_query = "SELECT * FROM flow LIMIT 200";
 $records = array();
-
 $connexion->beginTransaction();
-
 $resultset = $connexion->query($sql_query);
-while( $rows = $resultset->fetchAll(PDO::FETCH_ASSOC) ) {
+while( $rows = $resultset->fetch(PDO::FETCH_ASSOC) ) {
   $records[] = $rows;
 }
-
 $connexion->commit();
-
 $filename = "flow_data".date('Ymd') . ".xls";     
 header("Content-Type: application/vnd.ms-excel");
 header("Content-Disposition: attachment; filename=\"$filename\"");

@@ -34,8 +34,8 @@ session_start();
                         </li>
                         </ul>
                     </div>
-                    <button class="btn btn-success " data-toggle="modal" data-target=".bs-example-modal-sm">Logout</button>
-                    <div class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                    <button class="btn btn-success " data-toggle="modal" data-target="logout-modal">Logout</button>
+                    <div class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" id="logout-modal">
                         <div class="modal-dialog modal-sm">
                         <div class="modal-content">
                             <div class="modal-header"><h4>Logout <i class="fa fa-lock"></i></h4></div>
@@ -101,9 +101,17 @@ session_start();
                                 echo 'Erreur : '.$e->getMessage();
                                 exit();
                                 }
+                                try
+                                {
                                 $query = "SELECT * FROM flow LIMIT 10";
                                 $result = $connexion->query($query);
                                 $rows = $result->fetchAll(PDO::FETCH_ASSOC);
+                                }
+                                catch (PDOException $e)
+                                {
+                                echo 'Erreur : '."ACCES DENIED";
+                                exit();
+                                }
                                 foreach ($rows as $row) { 
                                 ?>
                                 <tr>
@@ -112,11 +120,55 @@ session_start();
                                     <td><?php echo $row['pname']; ?></td>
                                     <td><?php echo $row['direction']; ?></td>
                                     <td><?php echo $row['quantity']; ?></td>
-                                    <td><a href='$modifyLink' class='btn btn-success btn-sm'><i class='fas fa-edit'></i> Modify</a></td>
+                                    <td>
+  <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modifyFlowModal">
+    <i class="fas fa-edit"></i> Modify
+  </button>
+</td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
                         </table>
+                        <div class="modal fade" id="modifyFlowModal" tabindex="-1" role="dialog" aria-labelledby="modifyFlowModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modifyFlowModalLabel">Modify Flow</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="flowId">Flow ID:</label>
+            <input type="text" class="form-control" id="flowId">
+          </div>
+          <div class="form-group">
+            <label for="ename">Ename:</label>
+            <input type="text" class="form-control" id="ename">
+          </div>
+          <div class="form-group">
+            <label for="pname">Pname:</label>
+            <input type="text" class="form-control" id="pname">
+          </div>
+          <div class="form-group">
+            <label for="direction">Direction:</label>
+            <input type="text" class="form-control" id="direction">
+          </div>
+          <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="text" class="form-control" id="quantity">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
                     </div>
                     <div  id="entityTableContainer" class="table-container" style="display: none;">
                     <div class="row">
@@ -145,6 +197,7 @@ session_start();
                                     <th scope="col">Site</th>
                                     <th scope="col">Phase</th>
                                     <th scope="col">Nature</th>
+                                    <th scope="col">Edit</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -168,10 +221,55 @@ session_start();
                                     <td><?php echo $row['sname']; ?></td>
                                     <td><?php echo $row['phase']; ?></td>
                                     <td><?php echo $row['nature']; ?></td>
+                                    <td>
+  <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modifyFlowModal">
+    <i class="fas fa-edit"></i> Modify
+  </button>
+</td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
                         </table>
+                        <div class="modal fade" id="modifyFlowModal" tabindex="-1" role="dialog" aria-labelledby="modifyFlowModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modifyFlowModalLabel">Modify Flow</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="flowId">Flow ID:</label>
+            <input type="text" class="form-control" id="flowId">
+          </div>
+          <div class="form-group">
+            <label for="ename">Ename:</label>
+            <input type="text" class="form-control" id="ename">
+          </div>
+          <div class="form-group">
+            <label for="pname">Pname:</label>
+            <input type="text" class="form-control" id="pname">
+          </div>
+          <div class="form-group">
+            <label for="direction">Direction:</label>
+            <input type="text" class="form-control" id="direction">
+          </div>
+          <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="text" class="form-control" id="quantity">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
                     </div>
                 </div>
                 <div class = "col-3">
