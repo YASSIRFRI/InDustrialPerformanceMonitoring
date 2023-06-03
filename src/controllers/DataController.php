@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!($_SESSION['insert']))
+if(!($_SESSION['username']))
 {
     header("Location: ./Login.php");
 }

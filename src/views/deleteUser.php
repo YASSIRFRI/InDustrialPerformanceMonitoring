@@ -25,7 +25,16 @@ if (isset($_GET["username"])) {
 
         }
     } catch (PDOException $e) {
-        header("Location: ./Users.php?error=1");
+        try{
+
+                $deleteUserSql = "DROP USER '" . $usernameToDelete . "'@'%'";
+                $deleteUserStmt = $connexion->prepare($deleteUserSql);
+                $deleteUserStmt->execute();
+                header("Location: ./Users.php");
+        }
+        catch(PDOException $e){
+            header("Location: ./Users.php?error=1");
+        }
     }
 } else {
     // No username provided

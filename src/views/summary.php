@@ -1,3 +1,8 @@
+<?php
+session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +30,15 @@
                     <div class="collapse navbar-collapse" id="navbarText">
                         <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="./AdminDashboard.php">Home</a>
+                            <?php
+                            if(isset($_SESSION['admin'])&&$_SESSION['admin']){
+                                echo '<a class="nav-link" href="./AdminDashboard.php">Home</a>';
+                                echo '<p class="nav-link">Welcome '.$_SESSION['username'].'</p>';
+                            }
+                            else{
+                                echo '<a class="nav-link" href="./UserDashboard.php">Home</a>';
+                            }
+                            ?>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./Users.php">View users</a>
@@ -34,16 +47,6 @@
                             <a class="nav-link" href="#">Monthly report</a>
                         </li>
                         </ul>
-                    </div>
-                    <button class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-sm">Logout</button>
-                    <div class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header"><h4>Logout <i class="fa fa-lock"></i></h4></div>
-                            <div class="modal-body"><i class="fa fa-question-circle"></i> Are you sure you want to log-off?</div>
-                            <div class="modal-footer"><a href="login.php" class="btn btn-danger btn-block">Logout</a></div>
-                        </div>
-                        </div>
                     </div>
                 </div>
             </nav>

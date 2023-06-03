@@ -1,5 +1,9 @@
 <?php
 session_start();
+if(!($_SESSION['username']))
+{
+    header("Location: ./Login.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,22 +31,14 @@ session_start();
                     <div class="collapse navbar-collapse" id="navbarText">
                         <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Home</a>
+                            <a class="nav-link" href="./UserDashboard.php">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Summary</a>
+                            <a class="nav-link" href="./summary.php">Summary</a>
                         </li>
                         </ul>
                     </div>
-                    <button class="btn btn-success " data-toggle="modal" data-target="logout-modal">Logout</button>
-                    <div class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" id="logout-modal">
-                        <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header"><h4>Logout <i class="fa fa-lock"></i></h4></div>
-                            <div class="modal-body"><i class="fa fa-question-circle"></i> Are you sure you want to log-off?</div>
-                            <div class="modal-footer"><a href="login.php" class="btn btn-danger btn-block">Logout</a></div>
-                        </div>
-                        </div>
+                    <a href="../controllers/logout.php" class="btn btn-danger btn-block">Logout</a>
                     </div>
                 </div>
             </nav>
@@ -222,7 +218,7 @@ session_start();
                                     <td><?php echo $row['phase']; ?></td>
                                     <td><?php echo $row['nature']; ?></td>
                                     <td>
-  <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modifyFlowModal">
+  <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modifyInventoryModal">
     <i class="fas fa-edit"></i> Modify
   </button>
 </td>
@@ -230,11 +226,11 @@ session_start();
                                 <?php } ?>
                             </tbody>
                         </table>
-                        <div class="modal fade" id="modifyFlowModal" tabindex="-1" role="dialog" aria-labelledby="modifyFlowModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="modifyInventoryModal" tabindex="-1" role="dialog" aria-labelledby="modifyInventoryModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modifyFlowModalLabel">Modify Flow</h5>
+        <h5 class="modal-title" id="modifyInventoryModalLabel">Modify Inventory Entry</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -242,7 +238,7 @@ session_start();
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="flowId">Flow ID:</label>
+            <label for="flowId">Entity ID:</label>
             <input type="text" class="form-control" id="flowId">
           </div>
           <div class="form-group">

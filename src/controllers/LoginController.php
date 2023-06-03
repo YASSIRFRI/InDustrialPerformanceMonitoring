@@ -1,4 +1,5 @@
 <?php
+session_start();
 require '../models/User.php';
 class LoginController
 {
@@ -32,7 +33,7 @@ else
     if(isset($_GET['logout']))
     {
         session_destroy();
-        header('Location: /src/views/Login.php');
+        header('Location: ../views/Login.php');
     }
 }
 

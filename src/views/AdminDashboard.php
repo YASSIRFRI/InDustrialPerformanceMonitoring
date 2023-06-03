@@ -49,7 +49,7 @@ if(!($_SESSION['admin']))
                         <div class="modal-content">
                             <div class="modal-header"><h4>Logout <i class="fa fa-lock"></i></h4></div>
                             <div class="modal-body"><i class="fa fa-question-circle"></i> Are you sure you want to log-off?</div>
-                            <div class="modal-footer"><a href="login.php" class="btn btn-danger btn-block">Logout</a></div>
+                            <div class="modal-footer"><a href="../controllers/logout.php" class="btn btn-danger btn-block">Logout</a></div>
                         </div>
                         </div>
                     </div>
@@ -180,7 +180,7 @@ if(!($_SESSION['admin']))
                 </select>
                 </div>
                 <div class="col-md-6">
-                <label for="filter-month-year">View Flows for:</label>
+                <label for="filter-month-year">View Inventory for:</label>
                 <input type="month" class="form-control" id="month-select-entity">
                 </div>
             </div>
